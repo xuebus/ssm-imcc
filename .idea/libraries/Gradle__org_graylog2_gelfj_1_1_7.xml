@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.graylog2:gelfj:1.1.7">
+    <CLASSES>
+      <root url="jar://D:/java/gradle-3.3/caches/modules-2/files-2.1/org.graylog2/gelfj/1.1.7/a1d3998311f3d7e4924377b77de38fe9758e70aa/gelfj-1.1.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/java/gradle-3.3/caches/modules-2/files-2.1/org.graylog2/gelfj/1.1.7/77d963d9c90cbf3947a3640d2b5f12e57fb900cc/gelfj-1.1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

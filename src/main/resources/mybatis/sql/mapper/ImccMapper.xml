@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sql.mapper.ImccMapper">
+	<!-- 开启当前映射文件的二级缓存 -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<resultMap type="imcc" id="BaseResultMap">
+		<id column="id" property="id"/>
+		<result column="attach" property="attach"/>
+		<result column="body" property="body"/>
+		<result column="convtype" property="convType"/>
+		<result column="eventtype" property="eventType"/>
+		<result column="fromaccount" property="fromAccount"/>
+		<result column="fromclienttype" property="fromClientType"/>
+		<result column="fromdeviceid" property="fromDeviceId"/>
+		<result column="fromnick" property="fromNick"/>
+		<result column="msgtimestamp" property="msgTimestamp"/>
+		<result column="msgtype" property="msgType"/>
+		<result column="msgidclient" property="msgidClient"/>
+		<result column="msgidserver" property="msgidServer"/>
+		<result column="resendflag" property="resendFlag"/>
+		<result column="toaccount" property="to"/>
+		<result column="customsafeflag" property="customSafeFlag"/>
+		<result column="customapnstext" property="customApnsText"/>
+		<result column="tmembers" property="tMembers"/>
+		<result column="ext" property="ext"/>
+		<result column="antispam" property="antispam"/>
+	</resultMap>
+	<!-- 
+		提供公用的sql片段
+	 -->
+	<sql id="columns">
+		id,attach,body,convtype,eventtype,fromaccount,fromclienttype,fromdeviceid,fromnick,
+		msgtimestamp,msgtype,msgidclient,msgidserver,resendflag,toaccount,
+		customsafeflag,customapnstext,tmembers,ext,antispam
+	</sql>
+	
+	<!-- 
+		当查询自定义的库表对应的实体类的对象的时候用resultMap
+		当查询的返回值类型为非自定义的类型时使用resultType
+		useCache:是否使用二级缓存，true使用，false不适用，默认是true
+	 -->
+	<select id="selectTbImccByIdWithRM" parameterType="int" resultMap="BaseResultMap" useCache="true">
+		select <include refid="columns"/> from imcc t where t.id = #{id}
+	</select>
+
+	<!--
+    传入的参数是person的实体类的对象
+    #{personId}内容根据实体类中的get方法来取所以#{}中写实体类的属性即可
+ -->
+	<insert id="insert" parameterType="imcc">
+		<!--<selectKey keyProperty="id" order="AFTER" resultType="int">
+			select LAST_INSERT_ID()
+		</selectKey>-->
+		insert into imcc (attach,body,convtype,eventtype,fromaccount,fromclienttype,fromdeviceid,fromnick,
+		msgtimestamp,msgtype,msgidclient,msgidserver,resendflag,toaccount,
+		customsafeflag,customapnstext,tmembers,ext,antispam)
+		values(#{attach},
+		#{body},
+		#{convType},
+		#{eventType},
+		#{fromAccount},
+		#{fromClientType},
+		#{fromDeviceId},
+		#{fromNick},
+		#{msgTimestamp},
+		#{msgType},
+		#{msgidClient},
+		#{msgidServer},
+		#{resendFlag},
+		#{to},
+		#{customSafeFlag},
+		#{customApnsText},
+		#{tMembers},
+		#{ext},
+		#{antispam})
+	</insert>
+
+	<!--
+    flushCache:是否刷新缓存 ，true刷新，false不刷新，默认是true
+ -->
+	<update id="update" parameterType="imcc" flushCache="true">
+		update imcc i set i.attach = #{attach},
+		i.body = #{body},
+		i.convtype = #{convType},
+		i.eventtype = #{eventType},
+		i.fromaccount = #{fromAccount},
+		i.fromclienttype = #{fromClientType},
+		i.fromdeviceid = #{fromDeviceId},
+		i.fromnick = #{fromNick},
+		i.msgtimestamp = #{msgTimestamp},
+		i.msgtype = #{msgType},
+		i.msgidclient = #{msgidClient},
+		i.msgidserver = #{msgidServer},
+		i.resendflag = #{resendFlag},
+		i.toaccount = #{to},
+		i.customsafeflag = #{customSafeFlag},
+		i.customapnstext = #{customApnsText},
+		i.tmembers = #{tMembers},
+		i.ext = #{ext},
+		i.antispam = #{antispam}
+		where i.id = #{id}
+	</update>
+
+
+	<!--
+    set标签可以做动态修改，可以处理最后一个逗号
+ -->
+	<!--<update id="dynamicUpdate" parameterType="imcc">
+		update person p
+		<set>
+			<if test="aa != null">
+				p.aa = #{aa},
+			</if>
+		</set>
+		where p.person_id = #{personId}
+	</update>-->
+
+
+</mapper>

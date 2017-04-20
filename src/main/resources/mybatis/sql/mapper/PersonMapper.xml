@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+namespace:当前映射文件的命名空间，文件唯一标识,特别注意namespace不能使用别名
+ -->
+<mapper namespace="sql.mapper.PersonMapper">
+	<!-- 开启当前映射文件的二级缓存 -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<resultMap type="person" id="BaseResultMap">
+		<id column="person_id" property="personId"/>
+		<result column="person_name" property="personName"/>
+		<result column="gender" property="gender"/>
+		<result column="person_addr" property="personAddr"/>
+		<result column="birthday" property="birthday"/>
+	</resultMap>
+	<!-- 
+		提供公用的sql片段
+	 -->
+	<sql id="columns">
+		PERSON_ID, PERSON_NAME, GENDER, PERSON_ADDR, BIRTHDAY
+	</sql>
+	
+	<!-- 
+		当查询自定义的库表对应的实体类的对象的时候用resultMap
+		当查询的返回值类型为非自定义的类型时使用resultType
+		useCache:是否使用二级缓存，true使用，false不适用，默认是true
+	 -->
+	<select id="selectPersonByIdWithRM" parameterType="int" resultMap="BaseResultMap" useCache="true">
+		select <include refid="columns"/> from person t where t.person_id = #{personId}
+	</select>
+	
+	
+	
+	<!-- ===================================mybatis库表变更============================================== -->
+	<!-- 
+		传入的参数是person的实体类的对象
+		#{personId}内容根据实体类中的get方法来取所以#{}中写实体类的属性即可
+	 -->
+	<insert id="insert" parameterType="person">
+		<selectKey keyProperty="personId" order="AFTER" resultType="int">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into person (person_id, person_name, gender, person_addr, birthday)
+		values(#{personId}, #{personName}, #{gender}, #{personAddr}, #{birthday})
+	</insert>
+	
+	<!-- 
+		flushCache:是否刷新缓存 ，true刷新，false不刷新，默认是true
+	 -->
+	<update id="update" parameterType="person" flushCache="true">
+		update person p set p.person_name = #{personName},
+			p.gender = #{gender},
+			p.person_addr = #{personAddr},
+			p.birthday = #{birthday}
+			where p.person_id = #{personId}
+	</update>
+	
+	<!-- 
+		mysql中删除语句不支持别名
+	 -->
+	<delete id="delete" parameterType="int">
+		delete from person where person_id = #{personId}
+	</delete>
+	
+	<!-- =============================动态sql========================================== -->
+	<select id="selectPersonByCondition" parameterType="map" resultMap="BaseResultMap">
+		select * from person p
+		<where>
+			<if test="personName != null">
+				and p.person_name like '%${personName}%'
+			</if>
+			<if test="gender != null">
+				and p.gender = #{gender}
+			</if>
+			<if test="personAddr != null">
+				and p.person_addr = #{personAddr}
+			</if>
+			<if test="birthday != null">
+			<![CDATA[
+				and p.birthday < #{birthday}
+				]]>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 
+		set标签可以做动态修改，可以处理最后一个逗号
+	 -->
+	<update id="dynamicUpdate" parameterType="person">
+		update person p 
+		<set>
+			<if test="personName != null">
+				p.person_name = #{personName},
+			</if>
+			<if test="gender != null">
+				p.gender = #{gender},
+			</if>
+			<if test="personAddr != null">
+				p.person_addr = #{personAddr},
+			</if>
+			<if test="birthday != null">
+				p.birthday = #{birthday}
+			</if>
+		</set>
+		where p.person_id = #{personId}
+	</update>
+	
+	
+</mapper>

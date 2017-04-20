@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.logstash.log4j:jsonevent-layout:1.7">
+    <CLASSES>
+      <root url="jar://D:/java/gradle-3.3/caches/modules-2/files-2.1/net.logstash.log4j/jsonevent-layout/1.7/507713504f0ddb75ba512f62763519c43cf46fde/jsonevent-layout-1.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/java/gradle-3.3/caches/modules-2/files-2.1/net.logstash.log4j/jsonevent-layout/1.7/1cc820dd3264d6539eca8c06ea404d002de3362/jsonevent-layout-1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
